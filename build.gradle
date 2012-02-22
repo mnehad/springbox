@@ -4,6 +4,7 @@ apply plugin: 'idea'
 
 sourceCompatibility = 1.6
 
+projectUrl = 'http://github.com/vbossica/springbox'
 years = '2012'
 version = '0.0.1'
 group = 'org.vbossica'
@@ -44,12 +45,12 @@ task srcZip(type: Zip) {
   from sourceSets*.allSource
 }
 
-// maven install locally
 install.dependsOn (':build', ':srcZip')
 install {
   repositories.mavenInstaller {
     pom.project {
       inceptionYear years
+      url projectUrl
       licenses {
         license {
           name 'The Apache Software License, Version 2.0'
