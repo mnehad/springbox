@@ -1,0 +1,55 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.6
+
+years = '2012'
+version = '0.0.1'
+group = 'org.vbossica'
+
+springVersion = '3.1.0.RELEASE'
+junitVersion = '4.8.2'
+
+repositories {
+  mavenCentral()
+}
+
+configurations {
+  provided
+}
+
+dependencies {
+
+  provided "org.springframework:spring-context:${springVersion}"
+
+  testCompile "junit:junit:${junitVersion}"
+              "org.springframework:spring-test:${springVersion}"
+}
+
+sourceSets {
+  main {
+    compileClasspath += configurations.provided
+  }
+/*
+  test {
+    compileClasspath += configurations.provided
+    runtimeClasspath += configurations.provided 
+  }
+*/
+}
+
+task generatePom << {
+  pom {
+    project {
+      inceptionYear years
+      licenses {
+        license {
+          name 'The Apache Software License, Version 2.0'
+          url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+          distribution 'repo'
+  } } } }.writeTo("$buildDir/pom.xml")
+}
+
+// maven install locally
+install.dependsOn ':build'
