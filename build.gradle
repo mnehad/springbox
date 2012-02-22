@@ -39,17 +39,19 @@ sourceSets {
 */
 }
 
-task generatePom << {
-  pom {
-    project {
+task srcZip(type: Zip) {
+  classifier = 'src'
+  from sourceSets*.allSource
+}
+
+// maven install locally
+install.dependsOn (':build', ':srcZip')
+install {
+  repositories.mavenInstaller {
+    pom.project {
       inceptionYear years
       licenses {
         license {
           name 'The Apache Software License, Version 2.0'
           url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-          distribution 'repo'
-  } } } }.writeTo("$buildDir/pom.xml")
-}
-
-// maven install locally
-install.dependsOn ':build'
+} } } } }
