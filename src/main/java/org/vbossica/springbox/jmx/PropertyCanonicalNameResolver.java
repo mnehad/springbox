@@ -15,39 +15,50 @@
  */
 package org.vbossica.springbox.jmx;
 
+import java.util.Map;
+import java.util.Properties;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.support.PropertiesLoaderSupport;
 
-import java.util.Map;
-import java.util.Properties;
-
 /**
+ * Specific {@link CanonicalNameResolver} that loads the mappings from a property file. The configuration is similar to
+ * the one of the {@link PropertiesLoaderSupport} class, meaning that the {@link PropertiesLoaderSupport#setLocations(org.springframework.core.io.Resource[])} should be used to specify the files containing the mappings.<p>
+ *
+ * <b>Usage:</b><p>
+ *
+ * It is important to note that the special characters (':' and '=') in the JMX object names must be correctly escaped:
+ * <pre>
+ *   org.example.services\:name\=ServiceMBean = com.dummy.services\:name\=ExtraMBean
+ * </pre>
  *
  * @author vladimir
  */
 public class PropertyCanonicalNameResolver extends PropertiesLoaderSupport
-		implements CanonicalNameResolver, InitializingBean {
+    implements CanonicalNameResolver, InitializingBean {
 
-	private final static Log logger = LogFactory.getLog(PropertyCanonicalNameResolver.class);
+  private final static Log logger = LogFactory.getLog( PropertyCanonicalNameResolver.class );
 
-	private Properties props;
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		props = mergeProperties();
-		if (logger.isInfoEnabled()) {
-			for (Map.Entry<Object, Object> entry : props.entrySet()) {
-				logger.info("objectname jmx mapping: " + entry.getKey().toString() + " => " + entry.getValue().toString());
-			}
-		}
-	}
+  private Properties props;
 
   @Override
-  public String resolve(final String canonicalName) {
-    Object name = props.get(canonicalName);
-		return name == null ? null : name.toString();
+  public void afterPropertiesSet() throws Exception {
+    props = mergeProperties();
+    if ( logger.isInfoEnabled() ) {
+      for ( Map.Entry<Object, Object> entry : props.entrySet() ) {
+        logger.info( "objectname jmx mapping: " + entry.getKey().toString() + " => " + entry.getValue().toString() );
+      }
+    }
+  }
+
+  @Override
+  public String resolve( final String canonicalName ) {
+    Object name = props.get( canonicalName );
+    return name == null ?
+           null :
+           name.toString();
   }
 
 }

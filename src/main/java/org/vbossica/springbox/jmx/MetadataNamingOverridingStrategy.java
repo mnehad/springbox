@@ -15,6 +15,9 @@
  */
 package org.vbossica.springbox.jmx;
 
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.jmx.export.naming.MetadataNamingStrategy;
@@ -23,13 +26,9 @@ import org.springframework.jmx.support.ObjectNameManager;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import javax.management.MalformedObjectNameException;
-import javax.management.ObjectName;
-
 /**
- * An implementation of the {@link ObjectNamingStrategy} interface that reads the {@code ObjectName}
- * form the source-level metadata but allows it to be overwritten using a provided
- * {@link CanonicalNameResolver}.
+ * An implementation of the {@link ObjectNamingStrategy} interface that reads the {@code ObjectName} form the
+ * source-level metadata but allows it to be overwritten using a provided {@link CanonicalNameResolver}.
  *
  * @author vladimir
  */
@@ -37,29 +36,29 @@ public class MetadataNamingOverridingStrategy extends MetadataNamingStrategy {
 
   private final static Log logger = LogFactory.getLog( MetadataNamingOverridingStrategy.class );
 
-	private CanonicalNameResolver resolver = new CanonicalNameResolver() {
+  private CanonicalNameResolver resolver = new CanonicalNameResolver() {
 
-		@Override
-		public String resolve(String canonicalName) {
-			return null;
-		}
-	};
+    @Override
+    public String resolve( String canonicalName ) {
+      return null;
+    }
+  };
 
-  public void setResolver(final CanonicalNameResolver resolver) {
-		Assert.notNull(resolver, "resolver cannot be null" );
+  public void setResolver( final CanonicalNameResolver resolver ) {
+    Assert.notNull( resolver, "resolver cannot be null" );
     this.resolver = resolver;
   }
 
-	@Override
-	public ObjectName getObjectName(Object managedBean, String beanKey) throws MalformedObjectNameException {
-		ObjectName objectName = super.getObjectName(managedBean, beanKey);
-		String finalName = resolver.resolve(objectName.getCanonicalName());
+  @Override
+  public ObjectName getObjectName( Object managedBean, String beanKey ) throws MalformedObjectNameException {
+    ObjectName objectName = super.getObjectName( managedBean, beanKey );
+    String finalName = resolver.resolve( objectName.getCanonicalName() );
 
-		if (finalName != null && StringUtils.hasText(finalName)) {
-			logger.info( "replacing " + objectName + " by " + finalName );
-			return ObjectNameManager.getInstance(finalName);
-		}
-		return objectName;
-	}
+    if ( finalName != null && StringUtils.hasText( finalName ) ) {
+      logger.info( "replacing " + objectName + " by " + finalName );
+      return ObjectNameManager.getInstance( finalName );
+    }
+    return objectName;
+  }
 
 }

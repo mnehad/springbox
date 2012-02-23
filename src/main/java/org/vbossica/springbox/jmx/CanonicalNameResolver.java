@@ -16,15 +16,20 @@
 package org.vbossica.springbox.jmx;
 
 /**
+ * Implementation of this interface are reponsible for defining the final JMX object name of a Spring bean.
+ *
  * @author vladimir
  */
 public interface CanonicalNameResolver {
 
-	/**
-	 *
-	 * @param canonicalName
-	 * @return
-	 */
-  String resolve(String canonicalName);
+  /**
+   * Returns the final JMX bean name, based on the original {@code canonicalName} determined by Spring, or {@code null}
+   * if this resolver cannot figure out the final name.
+   *
+   * @param canonicalName the object name determined by the Spring {@linkplain org.springframework.jmx.export.naming
+   *                      .MetadataNamingStrategy} class
+   * @return the new name, or {@code null} if none could be resolved
+   */
+  String resolve( String canonicalName );
 
 }
