@@ -6,7 +6,7 @@ sourceCompatibility = 1.6
 
 projectUrl = 'http://github.com/vbossica/springbox'
 years = '2012'
-version = '0.0.1'
+version = '1.0.0.RELEASE'
 group = 'org.vbossica'
 
 springVersion = '3.1.0.RELEASE'
@@ -18,6 +18,7 @@ repositories {
 
 configurations {
   provided
+  testCompile.extendsFrom(provided)
 }
 
 dependencies {
@@ -32,12 +33,13 @@ sourceSets {
   main {
     compileClasspath += configurations.provided
   }
-/*
-  test {
-    compileClasspath += configurations.provided
-    runtimeClasspath += configurations.provided 
+}
+
+tasks.idea.dependsOn(cleanIdea)
+idea {
+  module {
+    scopes.PROVIDED.plus += configurations.provided
   }
-*/
 }
 
 task srcZip(type: Zip) {
@@ -45,7 +47,7 @@ task srcZip(type: Zip) {
   from sourceSets*.allSource
 }
 
-install.dependsOn (':build', ':srcZip')
+tasks.install.dependsOn(':build', ':srcZip')
 install {
   repositories.mavenInstaller {
     pom.project {
@@ -55,4 +57,8 @@ install {
         license {
           name 'The Apache Software License, Version 2.0'
           url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-} } } } }
+        }
+      }
+    }
+  }
+}
