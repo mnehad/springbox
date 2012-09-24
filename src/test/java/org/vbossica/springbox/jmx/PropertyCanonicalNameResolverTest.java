@@ -24,7 +24,7 @@ public class PropertyCanonicalNameResolverTest {
   @Test
   public void should_replace_defined_name() throws Exception {
     assertEquals( "com.dummy.services:name=ExtraServiceMBean",
-                  resolver.resolve( "org.example.services:name=SimpleServiceMBean" ) );
+        resolver.resolve( "org.example.services:name=SimpleServiceMBean" ) );
   }
 
   @Test

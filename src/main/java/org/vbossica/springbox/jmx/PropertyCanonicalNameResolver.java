@@ -25,7 +25,8 @@ import org.springframework.core.io.support.PropertiesLoaderSupport;
 
 /**
  * Specific {@link CanonicalNameResolver} that loads the mappings from a property file. The configuration is similar to
- * the one of the {@link PropertiesLoaderSupport} class, meaning that the {@link PropertiesLoaderSupport#setLocations(org.springframework.core.io.Resource[])} should be used to specify the files containing the mappings.<p>
+ * the one of the {@link PropertiesLoaderSupport} class, meaning that the {@link PropertiesLoaderSupport#setLocations(org.springframework.core.io.Resource[])}
+ * should be used to specify the files containing the mappings.<p>
  *
  * <b>Usage:</b><p>
  *
@@ -57,8 +58,8 @@ public class PropertyCanonicalNameResolver extends PropertiesLoaderSupport
   public String resolve( final String canonicalName ) {
     Object name = props.get( canonicalName );
     return name == null ?
-           null :
-           name.toString();
+        null :
+        name.toString();
   }
 
 }
