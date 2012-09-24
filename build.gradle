@@ -4,61 +4,75 @@ apply plugin: 'idea'
 
 sourceCompatibility = 1.6
 
-projectUrl = 'http://github.com/vbossica/springbox'
-years = '2012'
-version = '1.0.0.RELEASE'
+version = '1.1.0.RELEASE'
 group = 'org.vbossica'
 
-springVersion = '3.1.0.RELEASE'
-junitVersion = '4.8.2'
+ext.projectUrl = 'http://github.com/vbossica/springbox'
+ext.years = '2012'
+
+ext.commonsCliVersion = '1.2'
+ext.commonsLangVersion = '2.5'
+ext.junitVersion = '4.8.2'
+ext.reflectionsVersion = '0.9.8'
+ext.springVersion = '3.1.0.RELEASE'
 
 repositories {
-  mavenCentral()
+	mavenCentral()
 }
 
 configurations {
-  provided
-  testCompile.extendsFrom(provided)
+	provided
+	testCompile.extendsFrom(provided)
 }
 
 dependencies {
+	provided "commons-cli:commons-cli:${ commonsCliVersion }",
+			"commons-lang:commons-lang:${ commonsLangVersion }",
+			"org.reflections:reflections:${ reflectionsVersion }",
+			"org.springframework:spring-context:${ springVersion }"
 
-  provided "org.springframework:spring-context:${springVersion}"
-
-  testCompile "junit:junit:${junitVersion}"
-              "org.springframework:spring-test:${springVersion}"
+	testCompile "junit:junit:${junitVersion}"
+	"org.springframework:spring-test:${springVersion}"
 }
 
 sourceSets {
-  main {
-    compileClasspath += configurations.provided
-  }
-}
-
-tasks.idea.dependsOn(cleanIdea)
-idea {
-  module {
-    scopes.PROVIDED.plus += configurations.provided
-  }
+	main {
+		compileClasspath += configurations.provided
+	}
 }
 
 task srcZip(type: Zip) {
-  classifier = 'src'
-  from sourceSets*.allSource
+	classifier = 'src'
+	from sourceSets*.allSource
 }
 
 tasks.install.dependsOn(':build', ':srcZip')
 install {
-  repositories.mavenInstaller {
-    pom.project {
-      inceptionYear years
-      url projectUrl
-      licenses {
-        license {
-          name 'The Apache Software License, Version 2.0'
-          url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-        }
-      }
-    }
-  }
+	repositories.mavenInstaller {
+		pom.project {
+			inceptionYear years
+			url projectUrl
+			licenses {
+				license {
+					name 'The Apache Software License, Version 2.0'
+					url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+				}
+			}
+		}
+	}
+}
+
+tasks.idea.dependsOn(cleanIdea)
+idea {
+	module {
+		excludeDirs += file('.settings')
+		scopes.PROVIDED.plus += configurations.provided
+	}
+	project.ipr {
+		withXml { provider ->
+			def component = provider.node.component.find { it.@name == 'VcsDirectoryMappings' }
+			component.mapping.@directory = '$PROJECT_DIR$'
+			component.mapping.@vcs = 'Git'
+		}
+	}
 }
