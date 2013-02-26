@@ -9,6 +9,7 @@ build
 *.ipr
 *.iws
 out
+atlassian-ide-plugin.xml
 
 # macosx files
 .DS_Store
