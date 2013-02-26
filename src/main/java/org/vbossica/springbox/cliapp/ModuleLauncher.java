@@ -100,7 +100,7 @@ public class ModuleLauncher {
   }
 
   private void listModules( final String packageName, PrintStream out ) {
-    out.println( "Registered tools:" );
+    out.println( "Registered modules:" );
     for ( ModuleConfig module : findModules( packageName ).values() ) {
       out.println( "  " + module.name + " - " + module.description );
     }

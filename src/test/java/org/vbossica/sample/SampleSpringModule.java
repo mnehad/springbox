@@ -10,19 +10,19 @@ import org.vbossica.springbox.cliapp.ModuleConfiguration;
 /**
  * @author vladimir
  */
-@ModuleConfiguration( name = "SampleSpringTool", description = "sample spring module" )
+@ModuleConfiguration( name = "SampleSpringModule", description = "sample spring module" )
 public class SampleSpringModule extends AbstractSpringModule {
 
   @Override
   public Options getOptions() {
     return new Options()
-        .addOption( OptionBuilder.hasArg().withArgName( "id" ).withLongOpt( "solution" ).create( 's' ) );
+        .addOption( OptionBuilder.hasArg().withArgName( "number" ).withLongOpt( "arggument" ).create( 'a' ) );
   }
 
   @Override
   protected void doProcess( final CommandLine cmd, ApplicationContext context ) {
-    if ( cmd.hasOption( 's' ) ) {
-      System.out.println( "using solution " + cmd.getOptionValue( 's' ) );
+    if ( cmd.hasOption( 'a' ) ) {
+      System.out.println( "using argument " + cmd.getOptionValue( 'a' ) );
     }
   }
 

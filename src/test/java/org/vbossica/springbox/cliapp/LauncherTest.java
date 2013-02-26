@@ -14,38 +14,38 @@ public class LauncherTest {
   }
 
   @Test
-  public void shouldNotInitializeWrongTool() {
-    String[] args = new String[]{ "-package", "org.vbossica", "-tool", "WrongTool", "-s", "123" };
+  public void shouldNotInitializeWrongModule() {
+    String[] args = new String[]{ "--package", "org.vbossica.sample", "--module", "WrongModule", "-s", "123" };
     ModuleLauncher.main( args );
   }
 
   @Test
-  public void shouldInitializeSampleTool() {
-    String[] args = new String[]{ "-package", "org.vbossica", "-tool", "SampleTool", "-s", "123" };
+  public void shouldInitializeSampleModule() {
+    String[] args = new String[]{ "--package", "org.vbossica.sample", "--module", "SampleModule", "-s", "123" };
     ModuleLauncher.main( args );
   }
 
   @Test
-  public void shouldInitializeSampleTool2() {
-    String[] args = new String[]{ "-package", "org.vbossica", "-tool", "SampleTool", "-r", "123" };
+  public void shouldNotInitializeModuleWithWrongArgument() {
+    String[] args = new String[]{ "--package", "org.vbossica.sample", "--module", "SampleModule", "-r", "123" };
     ModuleLauncher.main( args );
   }
 
   @Test
-  public void shouldInitializeSampleSpringTool() {
-    String[] args = new String[]{ "-package", "org.vbossica", "-tool", "SampleSpringTool", "-s", "123" };
+  public void shouldInitializeSampleSpringModule() {
+    String[] args = new String[]{ "--package", "org.vbossica.sample", "--module", "SampleSpringModule", "-a", "123" };
     ModuleLauncher.main( args );
   }
 
   @Test
-  public void shouldListTools() {
-    String[] args = new String[]{ "-package", "org.vbossica", "-list" };
+  public void shouldListModules() {
+    String[] args = new String[]{ "--package", "org.vbossica.sample", "--list" };
     ModuleLauncher.main( args );
   }
 
   @Test
-  public void shouldListToolsWithoutPackage() {
-    String[] args = new String[]{ "-package", "", "-list" };
+  public void shouldListModulesWithoutPackage() {
+    String[] args = new String[]{ "--package", "", "--list" };
     ModuleLauncher.main( args );
   }
 

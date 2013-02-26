@@ -17,10 +17,13 @@ package org.vbossica.springbox.cliapp;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.lang.ClassUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
+ * Base class for Spring specific modules. Loads the {@link ApplicationContext} from the classpath.
+ *
  * @author vladimir
  */
 public abstract class AbstractSpringModule implements Module {
@@ -34,15 +37,24 @@ public abstract class AbstractSpringModule implements Module {
   }
 
   /**
-   * @return
+   * Returns the name of the Spring application context to load. By default, the name is the lowercased name of the
+   * module class, with the words separated by an underscore.<p>
+   *
+   * <b>Example</b>
+   *
+   * <ul>
+   *   <li>{@code SampleModule.class} => {@code META-INF/sample_module.xml}</li>
+   * </ul>
    */
   protected String getApplicationContextFilename() {
-    return "META-INF/" + ClassUtils.getShortClassName( getClass() ) + "-context.xml";
+    String filename = StringUtils.join(
+            StringUtils.splitByCharacterTypeCamelCase(ClassUtils.getShortClassName( getClass() )), '_')
+            .toLowerCase();
+    return "META-INF/" + filename + ".xml";
   }
 
   /**
-   * @param cmd
-   * @param context
+   * Processes the loaded {@link ApplicationContext} with the given {@link CommandLine} arguments.
    */
   protected abstract void doProcess( final CommandLine cmd, ApplicationContext context );
 

@@ -9,7 +9,7 @@ import org.vbossica.springbox.cliapp.ModuleConfiguration;
 /**
  * @author vladimir
  */
-@ModuleConfiguration( name = "SampleTool", description = "sample module" )
+@ModuleConfiguration( name = "SampleModule", description = "sample module" )
 public class SampleModule implements Module {
 
   @Override

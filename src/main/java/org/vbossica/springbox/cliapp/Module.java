@@ -19,19 +19,20 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
 /**
+ *
  * @author vladimir
  */
 public interface Module {
 
   /**
-   * @return
+   * Returns the list of {@link Options} supported by the module or {@code null} if not applicable.
    */
   Options getOptions();
 
   /**
-   * @param cmd
+   * Processes the module with the given {@link CommandLine}.
    *
-   * @throws Exception
+   * @throws Exception when anything went wrong
    */
   void process( final CommandLine cmd ) throws Exception;
 
