@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 the original author or authors.
+ * Copyright 2012-2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,14 +21,22 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Annotation used to let a class be automatically discovered by the {@link ModuleLauncher} application.
+ *
  * @author vladimir
  */
 @Target( { ElementType.TYPE } )
 @Retention( value = RetentionPolicy.RUNTIME )
 public @interface ModuleConfiguration {
 
+  /**
+   * Name of the module; will be used by the CLI application to invoke the underlying code.
+   */
   String name();
 
+  /**
+   * Description of the module; will be printed on the console when registered modules are listed.
+   */
   String description();
 
 }

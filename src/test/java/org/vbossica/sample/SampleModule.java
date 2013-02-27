@@ -9,20 +9,21 @@ import org.vbossica.springbox.cliapp.ModuleConfiguration;
 /**
  * @author vladimir
  */
+@SuppressWarnings("UnusedDeclaration")
 @ModuleConfiguration( name = "SampleModule", description = "sample module" )
 public class SampleModule implements Module {
 
   @Override
   public Options getOptions() {
     return new Options()
-        .addOption( OptionBuilder.hasArg().withArgName( "id" ).withLongOpt( "solution" ).create( 's' ) );
+        .addOption( OptionBuilder.hasArg().withArgName( "value" ).withLongOpt( "argument" ).create( 'a' ) );
   }
 
   @Override
   public void process( final CommandLine cmd ) {
     System.out.println( "processing" );
-    if ( cmd.hasOption( 's' ) ) {
-      System.out.println( "using solution " + cmd.getOptionValue( 's' ) );
+    if ( cmd.hasOption( 'a' ) ) {
+      System.out.println( "using argument " + cmd.getOptionValue( 'a' ) );
     }
   }
 

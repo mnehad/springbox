@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 the original author or authors.
+ * Copyright 2012-2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,19 @@ import org.apache.commons.cli.PosixParser;
 import org.reflections.Reflections;
 
 /**
+ * Entry-point command line application that automatically discovers modules in the classpath and let individual ones
+ * be executed. To register a module:
+ *
+ * <ol>
+ *   <li>Create a class that implements the {@link Module} interface</li>
+ *   <li>Annotate the class with {@link ModuleConfiguration}</li>
+ *   <li>Place the compiles class in the classpath</li>
+ *   <li>Execute {@code org.vbossica.springbox.cliapp.ModuleLauncher --package [package_name] --list} to get the
+ *   list of modules present in the package {@code package_name}</li>
+ *   <li>Execute {@code org.vbossica.springbox.cliapp.ModuleLauncher --package [package_name] --module [module_name]} to
+ *   execute one registered module</li>
+ * </ol>
+ *
  * @author vladimir
  */
 public class ModuleLauncher {
@@ -41,6 +54,9 @@ public class ModuleLauncher {
     new ModuleLauncher().process( args );
   }
 
+  /**
+   * Explores the classpath and returns all the classes with the {@link ModuleConfiguration} annotation.
+   */
   private Map<String, ModuleConfig> findModules( String pkgName ) {
     Map<String, ModuleConfig> result = Maps.newHashMap();
 
@@ -110,10 +126,7 @@ public class ModuleLauncher {
       throws InstantiationException, IllegalAccessException, ClassNotFoundException {
     Map<String, ModuleConfig> configs = findModules( packageName );
     ModuleConfig module = configs.get( moduleName );
-    if ( null == module ) {
-      throw new IllegalArgumentException( "module couldn't be found: " + moduleName );
-    }
-    if ( null == module.className ) {
+    if ( null == module || null == module.className ) {
       throw new IllegalArgumentException( "module couldn't be found: " + moduleName );
     }
     Module tool = (Module) Class.forName( module.className ).newInstance();
@@ -124,7 +137,7 @@ public class ModuleLauncher {
     } catch ( Exception ex ) {
       System.err.println( ex.getMessage() );
       HelpFormatter formatter = new HelpFormatter();
-      formatter.printHelp( "java " + ModuleLauncher.class.getName() + " -tool " + module.className, options, true );
+      formatter.printHelp( "java " + ModuleLauncher.class.getName() + " --tool " + module.className, options, true );
     }
   }
 

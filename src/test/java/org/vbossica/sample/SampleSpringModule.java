@@ -10,13 +10,14 @@ import org.vbossica.springbox.cliapp.ModuleConfiguration;
 /**
  * @author vladimir
  */
+@SuppressWarnings("UnusedDeclaration")
 @ModuleConfiguration( name = "SampleSpringModule", description = "sample spring module" )
 public class SampleSpringModule extends AbstractSpringModule {
 
   @Override
   public Options getOptions() {
     return new Options()
-        .addOption( OptionBuilder.hasArg().withArgName( "number" ).withLongOpt( "arggument" ).create( 'a' ) );
+        .addOption( OptionBuilder.hasArg().withArgName( "number" ).withLongOpt( "argument" ).create( 'a' ) );
   }
 
   @Override

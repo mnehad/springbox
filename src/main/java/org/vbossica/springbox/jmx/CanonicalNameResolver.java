@@ -27,9 +27,8 @@ public interface CanonicalNameResolver {
    * if this resolver cannot figure out the final name.
    *
    * @param canonicalName
-   *     the object name determined by the Spring {@linkplain org.springframework.jmx.export.naming
-   *     .MetadataNamingStrategy} class
-   *
+   *     the object name determined by the Spring {@linkplain org.springframework.jmx.export.naming.MetadataNamingStrategy}
+   *     class
    * @return the new name, or {@code null} if none could be resolved
    */
   String resolve( String canonicalName );
