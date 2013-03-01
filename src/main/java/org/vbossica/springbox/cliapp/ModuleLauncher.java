@@ -25,6 +25,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
+import org.apache.commons.lang.Validate;
 import org.reflections.Reflections;
 
 /**
@@ -82,17 +83,16 @@ public class ModuleLauncher {
   @SuppressWarnings( "AccessStaticViaInstance" )
   private void process( final String[] args ) {
     Options options = new Options()
-        .addOption( OptionBuilder.withLongOpt( HELP_OPTION ).create( 'h' ) )
-        .addOption(
-            OptionBuilder.hasArg().withArgName( "name" ).withLongOpt( PACKAGE_OPTION ).isRequired().create( 'p' ) )
-        .addOption( OptionBuilder.withLongOpt( LIST_OPTION ).create( 'l' ) )
-        .addOption( OptionBuilder.hasArg().withArgName( "class" ).withLongOpt( MODULE_OPTION ).create( 'm' ) );
+        .addOption( OptionBuilder.withLongOpt( HELP_OPTION ).withDescription("shows this help").create( 'h' ) )
+        .addOption( OptionBuilder.hasArg().withArgName("name").withLongOpt(PACKAGE_OPTION).withDescription("name of the package to scan").create( 'p' ) )
+        .addOption( OptionBuilder.withLongOpt( LIST_OPTION ).withDescription("lists all registered modules").create( 'l' ) )
+        .addOption( OptionBuilder.hasArg().withArgName( "name" ).withLongOpt( MODULE_OPTION ).withDescription("name of the module to execute").create('m') );
 
     String packageName = null;
 
     try {
       CommandLine cmd = new PosixParser().parse( options, args, true );
-      if ( cmd.hasOption( HELP_OPTION ) ) {
+      if ( cmd.hasOption( HELP_OPTION ) && !cmd.hasOption( MODULE_OPTION )) {
         printHelp( options );
         return;
       }
@@ -116,6 +116,8 @@ public class ModuleLauncher {
   }
 
   private void listModules( final String packageName, PrintStream out ) {
+    Validate.notEmpty(packageName, "required package must be set");
+
     out.println( "Registered modules:" );
     for ( ModuleConfig module : findModules( packageName ).values() ) {
       out.println( "  " + module.name + " - " + module.description );
@@ -124,24 +126,34 @@ public class ModuleLauncher {
 
   private void initializeTool( final String packageName, final CommandLine cmd, final String moduleName )
       throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+    Validate.notEmpty(packageName, "required package must be set");
+
     Map<String, ModuleConfig> configs = findModules( packageName );
-    ModuleConfig module = configs.get( moduleName );
-    if ( null == module || null == module.className ) {
+    ModuleConfig moduleConfig = configs.get( moduleName );
+    if ( null == moduleConfig || null == moduleConfig.className ) {
       throw new IllegalArgumentException( "module couldn't be found: " + moduleName );
     }
-    Module tool = (Module) Class.forName( module.className ).newInstance();
-    Options options = tool.getOptions();
+    Module module = (Module) Class.forName( moduleConfig.className ).newInstance();
+    Options options = module.getOptions();
+    if ( cmd.hasOption( HELP_OPTION ) ) {
+        printModuleHelp(moduleConfig, options);
+        return;
+    }
     try {
       CommandLine subCmd = new PosixParser().parse( options, cmd.getArgs() );
-      tool.process( subCmd );
+      module.process(subCmd);
     } catch ( Exception ex ) {
       System.err.println( ex.getMessage() );
-      HelpFormatter formatter = new HelpFormatter();
-      formatter.printHelp( "java " + ModuleLauncher.class.getName() + " --tool " + module.className, options, true );
+        printModuleHelp(moduleConfig, options);
     }
   }
 
-  private void printHelp( final Options options ) {
+    private void printModuleHelp(ModuleConfig moduleConfig, Options options) {
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp( "java " + ModuleLauncher.class.getName() + " --module " + moduleConfig.name, options, true );
+    }
+
+    private void printHelp( final Options options ) {
     HelpFormatter formatter = new HelpFormatter();
     formatter.printHelp( "java " + ModuleLauncher.class.getName(), options, true );
   }

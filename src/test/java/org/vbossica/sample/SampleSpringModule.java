@@ -11,7 +11,7 @@ import org.vbossica.springbox.cliapp.ModuleConfiguration;
  * @author vladimir
  */
 @SuppressWarnings("UnusedDeclaration")
-@ModuleConfiguration( name = "SampleSpringModule", description = "sample spring module" )
+@ModuleConfiguration( name = "TheSampleSpringModule", description = "sample spring module" )
 public class SampleSpringModule extends AbstractSpringModule {
 
   @Override

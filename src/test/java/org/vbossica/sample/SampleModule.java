@@ -10,7 +10,7 @@ import org.vbossica.springbox.cliapp.ModuleConfiguration;
  * @author vladimir
  */
 @SuppressWarnings("UnusedDeclaration")
-@ModuleConfiguration( name = "SampleModule", description = "sample module" )
+@ModuleConfiguration( name = "TheSampleModule", description = "sample module" )
 public class SampleModule implements Module {
 
   @Override
