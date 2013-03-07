@@ -62,7 +62,6 @@ artifacts {
   archives javadocJar
 }
 
-tasks.install.dependsOn(':build', ':srcZip')
 install {
   repositories.mavenInstaller {
     pom.project {
