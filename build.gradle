@@ -10,10 +10,6 @@ group = 'org.vbossica'
 ext.projectUrl = 'http://github.com/vbossica/springbox'
 ext.years = '2012-2013'
 
-ext.nexusUrl = ''
-ext.nexusUsername = ''
-ext.nexusPassword = ''
-
 ext.commonsCliVersion = '1.2'
 ext.commonsLangVersion = '2.5'
 ext.junitVersion = '4.8.2'
@@ -69,8 +65,8 @@ artifacts {
 uploadArchives {
   repositories {
     mavenDeployer {
-      repository(url: "${nexusUrl}") {
-        authentication(userName: "${nexusUsername}", password: "${nexusPassword}")
+      repository(url: "${springboxRepoUrl}") {
+        authentication(userName: "${springboxRepoUsername}", password: "${springboxRepoPassword}")
       }
       pom.project {
         name 'springbox - utility classes for the Spring framework'
