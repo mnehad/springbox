@@ -43,17 +43,17 @@ public class LauncherTest {
     ModuleLauncher.main( args );
   }
 
-    @Test
-    public void shouldInitializeSampleSpringModule() {
-        String[] args = new String[]{ "--package", "org.vbossica.sample", "--module", "TheSampleSpringModule", "-a", "123" };
-        ModuleLauncher.main( args );
-    }
+  @Test
+  public void shouldInitializeSampleSpringModule() {
+    String[] args = new String[]{ "--package", "org.vbossica.sample", "--module", "TheSampleSpringModule", "-a", "123" };
+    ModuleLauncher.main( args );
+  }
 
-    @Test
-    public void shouldNotInitializeModuleWithoutPackage() {
-        String[] args = new String[]{ "--module", "TheSampleSpringModule", "-a", "123" };
-        ModuleLauncher.main( args );
-    }
+  @Test
+  public void shouldNotInitializeModuleWithoutPackage() {
+    String[] args = new String[]{ "--module", "TheSampleSpringModule", "-a", "123" };
+    ModuleLauncher.main( args );
+  }
 
   @Test
   public void shouldListModulesWithoutPackage() {
@@ -64,6 +64,12 @@ public class LauncherTest {
   @Test
   public void shouldDisplayModuleHelp() {
     String[] args = new String[]{ "--package", "org.vbossica.sample", "--module", "TheSampleSpringModule", "--help" };
+    ModuleLauncher.main( args );
+  }
+
+  @Test
+  public void shouldDisplayModuleHelpWithoutOptions() {
+    String[] args = new String[]{ "--package", "org.vbossica.sample", "--module", "TheSampleModuleWithoutOptions", "--help" };
     ModuleLauncher.main( args );
   }
 

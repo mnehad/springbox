@@ -148,12 +148,12 @@ public class ModuleLauncher {
     }
   }
 
-    private void printModuleHelp(ModuleConfig moduleConfig, Options options) {
-        HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp( "java " + ModuleLauncher.class.getName() + " --module " + moduleConfig.name, options, true );
-    }
+  private void printModuleHelp(ModuleConfig moduleConfig, Options options) {
+    HelpFormatter formatter = new HelpFormatter();
+    formatter.printHelp( "java " + ModuleLauncher.class.getName() + " --module " + moduleConfig.name, options != null ? options : new Options(), true );
+  }
 
-    private void printHelp( final Options options ) {
+  private void printHelp( final Options options ) {
     HelpFormatter formatter = new HelpFormatter();
     formatter.printHelp( "java " + ModuleLauncher.class.getName(), options, true );
   }
