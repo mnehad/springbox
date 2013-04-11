@@ -84,9 +84,9 @@ public class ModuleLauncher {
   private void process( final String[] args ) {
     Options options = new Options()
         .addOption( OptionBuilder.withLongOpt( HELP_OPTION ).withDescription("shows this help").create( 'h' ) )
-        .addOption( OptionBuilder.hasArg().withArgName("name").withLongOpt(PACKAGE_OPTION).withDescription("name of the package to scan").create( 'p' ) )
-        .addOption( OptionBuilder.withLongOpt( LIST_OPTION ).withDescription("lists all registered modules").create( 'l' ) )
-        .addOption( OptionBuilder.hasArg().withArgName( "name" ).withLongOpt( MODULE_OPTION ).withDescription("name of the module to execute").create('m') );
+        .addOption( OptionBuilder.hasArg().withArgName("name").withDescription("name of the package to scan").create( PACKAGE_OPTION ) )
+        .addOption( OptionBuilder.withDescription("lists all registered modules").create( LIST_OPTION ) )
+        .addOption( OptionBuilder.hasArg().withArgName( "name" ).withDescription("name of the module to execute").create( MODULE_OPTION ) );
 
     String packageName = null;
 
