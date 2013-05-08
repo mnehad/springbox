@@ -3,6 +3,7 @@
 
 # gradle files
 .gradle
+gradle.properties
 build
 
 # intellij files
