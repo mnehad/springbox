@@ -13,10 +13,15 @@ ext.years = '2012-2013'
 ext.commonsCliVersion = '1.2'
 ext.commonsLangVersion = '2.5'
 ext.junitVersion = '4.8.2'
+ext.metricsVersion = '3.0.0-BETA2'
 ext.reflectionsVersion = '0.9.8'
-ext.springVersion = '3.2.1.RELEASE'
+ext.servletVersion = '2.5'
+ext.springVersion = '3.2.2.RELEASE'
 
 repositories {
+  maven {
+    url = 'http://oss.sonatype.org/content/repositories/snapshots'
+  }
   mavenCentral()
 }
 
@@ -32,8 +37,15 @@ dependencies {
            "org.springframework:spring-context:${ springVersion }",
            "org.springframework:spring-tx:${ springVersion }"
 
-  testCompile "junit:junit:${junitVersion}",
-              "org.springframework:spring-test:${springVersion}"
+  // libraries for metrics
+  provided "com.codahale.metrics:metrics-json:${ metricsVersion }",
+           "com.codahale.metrics:metrics-healthchecks:${ metricsVersion }",
+           "com.codahale.metrics:metrics-jvm:${ metricsVersion }",
+           "javax.servlet:servlet-api:${ servletVersion }",
+           "org.springframework:spring-webmvc:${ springVersion }"
+
+  testCompile "junit:junit:${ junitVersion }",
+              "org.springframework:spring-test:${ springVersion }"
 }
 
 sourceSets {
