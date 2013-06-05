@@ -135,6 +135,9 @@ public class ModuleLauncher {
     }
     Module module = (Module) Class.forName( moduleConfig.className ).newInstance();
     Options options = module.getOptions();
+    if ( options == null ) {
+      options = new Options();
+    }
     if ( cmd.hasOption( HELP_OPTION ) ) {
         printModuleHelp(moduleConfig, options);
         return;
@@ -144,7 +147,8 @@ public class ModuleLauncher {
       module.process(subCmd);
     } catch ( Exception ex ) {
       System.err.println( ex.getMessage() );
-        printModuleHelp(moduleConfig, options);
+      ex.printStackTrace(System.err);
+      printModuleHelp(moduleConfig, options);
     }
   }
 
