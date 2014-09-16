@@ -48,14 +48,14 @@ import org.springframework.util.ReflectionUtils;
  *   protected void initApplicationContext() throws BeansException {
  *     super.initApplicationContext();
  *
- *     AnnotatedMethodResolver resolver = new AnnotatedMethodResolver<MyAnnotation>(MyAnnotation.class) {
+ *     AnnotatedMethodResolver resolver = new AnnotatedMethodResolver&lt;MyAnnotation&gt;(MyAnnotation.class) {
  *
  *       protected void doWithAnnotatedMethod(String beanName, Object bean, Method annotatedMethod, MyAnnotation annotation ) {
  *         // ...
  *       }
  *     };
  *
- *     for (Map.Entry<String, Object> comp : getApplicationContext().getBeansWithAnnotation(Component.class).entrySet()) {
+ *     for (Map.Entry&lt;String, Object&gt; comp : getApplicationContext().getBeansWithAnnotation(Component.class).entrySet()) {
  *       resolver.traverse(comp.getKey(), comp.getValue());
  *     }
  *   }

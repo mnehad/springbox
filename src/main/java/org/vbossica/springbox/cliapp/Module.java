@@ -27,12 +27,13 @@ public interface Module {
 
   /**
    * Returns the list of {@link Options} supported by the module or {@code null} if not applicable.
+   * @return options supported by the module
    */
   Options getOptions();
 
   /**
    * Processes the module with the given {@link CommandLine}.
-   *
+   * @param cmd Apache command-line object
    * @throws Exception when anything went wrong
    */
   void process( final CommandLine cmd ) throws Exception;
