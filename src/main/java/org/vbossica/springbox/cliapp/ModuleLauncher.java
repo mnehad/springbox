@@ -16,12 +16,12 @@
 package org.vbossica.springbox.cliapp;
 
 import java.io.PrintStream;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
@@ -77,6 +77,22 @@ public class ModuleLauncher {
     return result;
   }
 
+  /**
+   * Explores the classpath and returns a sorted list of names and descriptions (separated by
+   * a dash) of classes annotated with {@link ModuleConfiguration}.
+   */
+  private List<String> findSortedModuleDescriptions( String pkgName ) {
+      List<String> names = Lists.newArrayList();
+
+      Set<Class<?>> annotated = new Reflections( pkgName ).getTypesAnnotatedWith( ModuleConfiguration.class );
+      for ( Class<?> cls : annotated ) {
+          ModuleConfiguration annotation = cls.getAnnotation( ModuleConfiguration.class );
+          names.add(annotation.name() + " - " + annotation.description());
+      }
+      Collections.sort(names);
+      return names;
+  }
+
   private final static class ModuleConfig {
     String name;
     String description;
@@ -122,8 +138,8 @@ public class ModuleLauncher {
     Validate.notEmpty(packageName, "required package must be set");
 
     out.println( "Registered modules:" );
-    for ( ModuleConfig module : findModules( packageName ).values() ) {
-      out.println( "  " + module.name + " - " + module.description );
+    for ( String module : findSortedModuleDescriptions(packageName) ) {
+      out.println( "  " + module );
     }
   }
 
