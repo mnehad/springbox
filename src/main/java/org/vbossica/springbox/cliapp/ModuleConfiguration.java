@@ -31,11 +31,13 @@ public @interface ModuleConfiguration {
 
   /**
    * Name of the module; will be used by the CLI application to invoke the underlying code.
+   * @return name of the module
    */
   String name();
 
   /**
    * Description of the module; will be printed on the console when registered modules are listed.
+   * @return description of the module
    */
   String description();
 

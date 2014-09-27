@@ -50,7 +50,7 @@ dependencies {
 
 sourceSets {
   main {
-    compileClasspath += configurations.provided
+    compileClasspath += [configurations.provided]
   }
 }
 
@@ -100,7 +100,7 @@ tasks.idea.dependsOn(cleanIdea)
 idea {
   module {
     excludeDirs += file('.settings')
-    scopes.PROVIDED.plus += configurations.provided
+    scopes.PROVIDED.plus += [configurations.provided]
   }
   project.ipr {
     withXml { provider ->

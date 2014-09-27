@@ -43,8 +43,9 @@ public abstract class AbstractSpringModule implements Module {
    * <b>Example</b>
    *
    * <ul>
-   *   <li>{@code SampleModule.class} => {@code META-INF/sample_module.xml}</li>
+   *   <li>{@code SampleModule.class} =&gt; {@code META-INF/sample_module.xml}</li>
    * </ul>
+   * @return filename of the application context
    */
   protected String getApplicationContextFilename() {
     String filename = StringUtils.join(
@@ -55,6 +56,8 @@ public abstract class AbstractSpringModule implements Module {
 
   /**
    * Processes the loaded {@link ApplicationContext} with the given {@link CommandLine} arguments.
+   * @param cmd Apache command-line object
+   * @param context Spring application context
    */
   protected abstract void doProcess( final CommandLine cmd, ApplicationContext context );
 
