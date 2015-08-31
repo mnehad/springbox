@@ -168,6 +168,7 @@ public class ModuleLauncher {
       System.err.println( ex.getMessage() );
       ex.printStackTrace(System.err);
       printModuleHelp(moduleConfig, options);
+      System.exit(1);
     }
   }
 

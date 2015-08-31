@@ -73,4 +73,10 @@ public class LauncherTest {
     ModuleLauncher.main( args );
   }
 
+  @Test
+  public void shouldLaunchSpringModuleWithProperty() {
+    String[] args = new String[]{ "--package", "org.vbossica.sample", "--module", "TheSampleSpringFailModule" };
+    ModuleLauncher.main( args );
+  }
+
 }
